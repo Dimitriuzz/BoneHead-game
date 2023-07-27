@@ -33,20 +33,20 @@ namespace bonehead
                 case Item.ItemType.Weapon:
                 {
                         newItem.name = weaponNames[Random.Range(0, weaponNames.Length)];
-                        newItem.itemImage.sprite = weaponImages[Random.Range(0, weaponImages.Length)];
+                        newItem.itemImage = weaponImages[Random.Range(0, weaponImages.Length)];
                         break;
 
                 }
                 case Item.ItemType.Shield:
                     {
                         newItem.name = shieldNames[Random.Range(0, shieldNames.Length)];
-                        newItem.itemImage.sprite = shieldImages[Random.Range(0, shieldImages.Length)];
+                        newItem.itemImage = shieldImages[Random.Range(0, shieldImages.Length)];
                         break;
                     }
                 case Item.ItemType.Helm:
                     {
                         newItem.name = helmNames[Random.Range(0, helmNames.Length)];
-                        newItem.itemImage.sprite = helmImages[Random.Range(0, helmImages.Length)];
+                        newItem.itemImage = helmImages[Random.Range(0, helmImages.Length)];
                         break;
                     }
 

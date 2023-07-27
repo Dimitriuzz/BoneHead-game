@@ -17,6 +17,17 @@ namespace bonehead
 
         public string name;
 
-        public Image itemImage;
+        public Sprite itemImage;
+
+        public Item (Sprite sprite)
+        {
+            hitPoints = 0;
+            armor = 0;
+            attack = 0;
+            name = "Item";
+            type = 0;
+            itemImage = sprite;
+
+        }
     }
 }

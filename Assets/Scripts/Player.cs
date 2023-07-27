@@ -38,18 +38,14 @@ namespace bonehead
         void Start()
         {
            Item[] equipedItems = new Item[3];
-            for (int i = 0; i < 3; i++)
+            Debug.Log(equipedItems.Length);
+            for (int i = 0; i < equipedItems.Length; i++)
             {
+                equipedItems[i] = new Item(blankImage);
 
-                //equipedItems[i] = new Item();    
-                equipedItems[i].hitPoints = 0;
-                equipedItems[i].armor = 0;
-                equipedItems[i].attack = 0;
-               // equipedItems[i].itemImage.sprite = blankImage;
+            }            
 
-                }
-
-            }
+        }
 
         public void FindNewItem()
         {
@@ -70,7 +66,7 @@ namespace bonehead
             newItemPanel.attackValue.text = newItem.attack.ToString();
             newItemPanel.hitpointsValue.text = newItem.hitPoints.ToString();
             newItemPanel.nameText.text = newItem.name.ToString();
-            newItemPanel.itemImage = newItem.itemImage;
+            newItemPanel.itemImage.sprite = newItem.itemImage;
 
             for (int i = 0; i < 3; i++)
             {
@@ -80,7 +76,7 @@ namespace bonehead
                     currentItemPanel.attackValue.text = equipedItems[i].attack.ToString();
                     currentItemPanel.hitpointsValue.text = equipedItems[i].hitPoints.ToString();
                     currentItemPanel.nameText.text = equipedItems[i].name.ToString();
-                    currentItemPanel.itemImage = equipedItems[i].itemImage;
+                    currentItemPanel.itemImage.sprite = equipedItems[i].itemImage;
                     if (newItem.attack > equipedItems[i].attack)
                     {
                         newItemPanel.greenArrows[0].gameObject.SetActive(true);
@@ -162,7 +158,7 @@ namespace bonehead
                     newItem.hitPoints = 0;
                     newItem.armor = 0;
                     newItem.attack = 0;
-                    newItem.itemImage.sprite = blankImage;
+                    newItem.itemImage = blankImage;
 
                 }
             }
@@ -174,25 +170,26 @@ namespace bonehead
             newItem.hitPoints = 0;
             newItem.armor = 0;
             newItem.attack = 0;
-            newItem.itemImage.sprite = blankImage;
+            newItem.itemImage = blankImage;
         }
 
 
 
 
-        // Update is called once per frame
+      
         void Update()
         {
             totalArmor = 0;
             totalAttack = 0;
             totalHP = 0;
-            for (int i = 0; i < 3; i++)
+            Debug.Log(equipedItems.Length);
+            for (int i = 0; i < equipedItems.Length; i++)
             {
                 equipedItemsVisual[i].armorValue.text = equipedItems[i].armor.ToString();
                 equipedItemsVisual[i].attackValue.text = equipedItems[i].attack.ToString();
                 equipedItemsVisual[i].hitpointsValue.text = equipedItems[i].hitPoints.ToString();
                 equipedItemsVisual[i].nameText.text = equipedItems[i].name.ToString();
-                equipedItemsVisual[i].itemImage = equipedItems[i].itemImage;
+                equipedItemsVisual[i].itemImage.sprite = equipedItems[i].itemImage;
                 totalHP += equipedItems[i].hitPoints;
                 totalAttack += equipedItems[i].attack;
                 totalArmor += equipedItems[i].armor;
