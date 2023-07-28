@@ -1,8 +1,9 @@
-using System;
+//using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace bonehead
 {
@@ -17,6 +18,10 @@ namespace bonehead
         [SerializeField] private ItemsCollection collection;
 
         private Item newItem;
+        private int goldNumber = 0;
+        [SerializeField] private TMP_Text goldText;
+
+        [SerializeField] private GameObject CoinPrefab;
         
         [SerializeField] private ItemVisualisation newItemPanel;
         [SerializeField] private ItemVisualisation currentItemPanel;
@@ -32,30 +37,42 @@ namespace bonehead
         private int totalArmor;
         private int totalHP;
 
+        Animator animator;
+
         
-       private Item[] equipedItems;
-     
+       //private Item[] equipedItems;
+        Item[] equipedItems = new Item[3];
         void Start()
         {
-           Item[] equipedItems = new Item[3];
-            Debug.Log(equipedItems.Length);
+            goldText.text = "0";
+
+            animator = GetComponentInChildren<Animator>();
+            
             for (int i = 0; i < equipedItems.Length; i++)
             {
                 equipedItems[i] = new Item(blankImage);
 
-            }            
+            }
+
+            equipedItems[1].type = Item.ItemType.Shield;
+            equipedItems[2].type = Item.ItemType.Helm;
 
         }
 
+        public void PlayAnim()
+        {
+            animator.SetTrigger("Attack");
+        }
         public void FindNewItem()
         {
+            //animator.SetInteger("State", 1);
             var a = UnityEngine.Random.Range(0, 3);
             if (a==0)
             newItem = collection.GenerateItem(Item.ItemType.Weapon);
             else if(a==1)
                 newItem = collection.GenerateItem(Item.ItemType.Shield);
                     else newItem = collection.GenerateItem(Item.ItemType.Helm);
-
+            Debug.Log(newItem.name);
             UpdateVisualisation();
            
         }
@@ -150,16 +167,30 @@ namespace bonehead
 
         public void Equip()
         {
+            
             for (int i = 0; i < 3; i++)
             {
+                Debug.Log(newItem.type + " " + equipedItems[i].type);
                 if (newItem.type == equipedItems[i].type)
                 {
-                    equipedItems[i] = newItem;
+                    if (equipedItems[i].name != "Item")
+                    {
+                        UpdateGold(equipedItems[i]);
+                        SpawnCoins();
+                    }
+                    equipedItems[i].name = newItem.name;
+                    equipedItems[i].armor = newItem.armor;
+                    equipedItems[i].attack = newItem.attack;
+                    equipedItems[i].hitPoints = newItem.hitPoints;
+                    equipedItems[i].itemImage = newItem.itemImage;
+                    newItem.name = "Item";
                     newItem.hitPoints = 0;
                     newItem.armor = 0;
                     newItem.attack = 0;
                     newItem.itemImage = blankImage;
 
+                    Debug.Log("equiped hp " + equipedItems[i].hitPoints);
+                    break;
                 }
             }
             UpdateVisualisation();
@@ -167,13 +198,31 @@ namespace bonehead
 
         public void Drop()
         {
+            UpdateGold(newItem);
+            newItem.name = "Item";
             newItem.hitPoints = 0;
             newItem.armor = 0;
             newItem.attack = 0;
             newItem.itemImage = blankImage;
+            SpawnCoins();
+            UpdateVisualisation();
         }
 
+        public void SpawnCoins()
+        {
+            
+            for(int i=0; i<10;i++)
+            {
+                var pos= new Vector3(CoinPrefab.transform.position.x + Random.Range(-0.05f, 0.05f), CoinPrefab.transform.position.y + Random.Range(-0.05f, 0.05f), CoinPrefab.transform.position.z);
+                Instantiate(CoinPrefab,pos,Quaternion.identity);
+            }
+        }
 
+        private void UpdateGold(Item item)
+        {
+            goldNumber += item.armor + item.attack + item.hitPoints;
+            goldText.text = goldNumber.ToString();
+        }
 
 
       
@@ -182,7 +231,7 @@ namespace bonehead
             totalArmor = 0;
             totalAttack = 0;
             totalHP = 0;
-            Debug.Log(equipedItems.Length);
+            
             for (int i = 0; i < equipedItems.Length; i++)
             {
                 equipedItemsVisual[i].armorValue.text = equipedItems[i].armor.ToString();

@@ -15,7 +15,7 @@ namespace bonehead
         [SerializeField] private Sprite[] shieldImages;
         [SerializeField] private Sprite[] helmImages;
 
-        private Item newItem;
+        private Item newItem =new Item(null);
         // Start is called before the first frame update
         void Start()
         {

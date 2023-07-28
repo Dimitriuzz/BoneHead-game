@@ -7,7 +7,7 @@ namespace bonehead
 {
     public class Item 
     {
-        public enum ItemType { Weapon=0, Shield=1, Helm=2}
+        public enum ItemType { Weapon=0, Shield=1, Helm=2, None=3}
 
         public int attack;
         public int armor;
@@ -25,7 +25,7 @@ namespace bonehead
             armor = 0;
             attack = 0;
             name = "Item";
-            type = 0;
+            type = ItemType.Weapon;
             itemImage = sprite;
 
         }
